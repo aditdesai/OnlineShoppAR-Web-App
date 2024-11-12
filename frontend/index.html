@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnlineShoppAR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="flex flex-col min-h-screen bg-white text-black">
+    <header class="border-b">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">OnlineShoppAR</a>
+            <nav class="hidden md:flex space-x-4">
+                <a href="#" class="hover:text-blue-600">Home</a>
+                <a href="#pricing" class="hover:text-blue-600">Pricing</a>
+                <a href="#gallery" class="hover:text-blue-600">Gallery</a>
+            </nav>
+            <div class="hidden md:flex space-x-2">
+                <button onclick="openModal('signInModal')" class="px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition-colors">Sign In</button>
+                <button onclick="openModal('signUpModal')" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">Sign Up</button>
+            </div>
+            <button id="menuToggle" class="md:hidden">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+    </header>
+
+    <div id="mobileMenu" class="md:hidden border-b hidden">
+        <nav class="container mx-auto px-4 py-2 flex flex-col space-y-2">
+            <a href="#" class="hover:text-blue-600">Home</a>
+            <a href="#pricing" class="hover:text-blue-600">Pricing</a>
+            <a href="#gallery" class="hover:text-blue-600">Gallery</a>
+            <button onclick="openModal('signInModal')" class="px-4 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition-colors">Sign In</button>
+            <button onclick="openModal('signUpModal')" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">Sign Up</button>
+        </nav>
+    </div>
+
+    <main class="flex-grow">
+        <section class="container mx-auto px-4 py-12">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold mb-4">Create AR Models from Images</h1>
+                <p class="text-xl text-gray-600">Upload an image and we'll turn it into a 3D AR model instantly!</p>
+            </div>
+            <div class="max-w-md mx-auto bg-gray-100 p-6 rounded-lg shadow-lg">
+                <form onsubmit="uploadImage(event); return false">
+                    <div class="mb-4">
+                        <input type="file" accept="image/*" id="fileUpload" class="hidden">
+                        <label for="fileUpload" class="flex items-center justify-center w-full h-32 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:border-blue-600">
+                            <div id="uploadText" class="text-center">
+                                <i data-lucide="upload" class="mx-auto mb-2"></i>
+                                <span>Click to upload an image</span>
+                            </div>
+                        </label>
+                    </div>
+                    <button type="submit" id="createModelBtn" class="w-full px-4 py-2 bg-gray-300 text-gray-600 rounded cursor-not-allowed transition-colors">
+                        Create 3D Model
+                    </button>
+                </form>
+                <div id="arViewer" class="mt-4 text-center hidden">
+                    <a href="#" id="arLink" rel="ar" class="inline-block bg-gray-200 text-blue-600 px-4 py-2 rounded-lg hover:bg-gray-300">
+                        View in AR
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="bg-gray-100 py-12">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-8">Pricing Plans</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold mb-2">Basic</h3>
+                        <p class="text-2xl font-bold mb-4">₹50</p>
+                        <ul class="mb-6">
+                            <li class="mb-2 flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                5 image to 3D model conversions
+                            </li>
+                            <li class="mb-2 flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Basic support
+                            </li>
+                        </ul>
+                        <button class="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">Choose Plan</button>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold mb-2">Standard</h3>
+                        <p class="text-2xl font-bold mb-4"><s>₹250</s>  ₹240</p>
+                        <ul class="mb-6">
+                            <li class="mb-2 flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                25 image to 3D model conversions
+                            </li>
+                            <li class="mb-2 flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Standard support
+                            </li>
+                        </ul>
+                        <button class="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">Choose Plan</button>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold mb-2">Pro</h3>
+                        <p class="text-2xl font-bold mb-4"><s>₹1000</s>  ₹950</p>
+                        <ul class="mb-6">
+                            <li class="mb-2 flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                100 image to 3D model conversions
+                            </li>
+                            <li class="mb-2 flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Pro support
+                            </li>
+                            <li class="mb-2 flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                API access
+                            </li>
+                        </ul>
+                        <button class="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">Choose Plan</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="py-12">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-8">Example Gallery</h2>
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+                        <img src="/placeholder.svg?height=200&width=200" alt="Chair" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <h3 class="text-lg font-semibold text-center">Chair</h3>
+                    </div>
+                    <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+                        <img src="/placeholder.svg?height=200&width=200" alt="Table" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <h3 class="text-lg font-semibold text-center">Table</h3>
+                    </div>
+                    <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+                        <img src="/placeholder.svg?height=200&width=200" alt="Lamp" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <h3 class="text-lg font-semibold text-center">Lamp</h3>
+                    </div>
+                    <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+                        <img src="/placeholder.svg?height=200&width=200" alt="Vase" class="w-full h-48 object-cover rounded-lg mb-4">
+                        <h3 class="text-lg font-semibold text-center">Vase</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-t">
+        <div class="container mx-auto px-4 py-6 text-center text-gray-600">
+            © 2024 OnlineShoppAR. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Sign In Modal -->
+    <div id="signInModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-8 rounded-lg max-w-md w-full">
+            <h2 class="text-2xl font-bold mb-4">Sign In</h2>
+            <input type="email" placeholder="Email" class="w-full mb-4 px-3 py-2 border rounded">
+            <input type="password" placeholder="Password" class="w-full mb-4 px-3 py-2 border rounded">
+            <button class="w-full mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">Sign In</button>
+            <button onclick="closeModal('signInModal')" class="w-full px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 transition-colors">Close</button>
+        </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div id="signUpModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-8 rounded-lg max-w-md w-full">
+            <h2 class="text-2xl font-bold mb-4">Sign Up</h2>
+            <input type="text" placeholder="Name" class="w-full mb-4 px-3 py-2 border rounded">
+            <input type="email" placeholder="Email" class="w-full mb-4 px-3 py-2 border rounded">
+            <input type="password" placeholder="Password" class="w-full mb-4 px-3 py-2 border rounded">
+            <input type="password" placeholder="Confirm Password" class="w-full mb-4 px-3 py-2 border rounded">
+            <button class="w-full mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">Sign Up</button>
+            <button onclick="closeModal('signUpModal')" class="w-full px-4 py-2 border border-gray-300 rounded hover:bg-gray-100 transition-colors">Close</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
