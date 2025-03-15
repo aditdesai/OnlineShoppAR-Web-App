@@ -9,7 +9,7 @@ async function uploadImage(e) {
         formData.append('image', fileUpload.files[0]);
 
         try {
-            const response = await fetch('https://primate-wise-longhorn.ngrok-free.app/image-to-3d-pipeline', {
+            const response = await fetch('http://localhost:8000/image-to-3d-pipeline', {
                 method: 'POST',
                 body: formData
             });
